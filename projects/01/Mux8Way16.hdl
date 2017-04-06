@@ -1,0 +1,193 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way16.hdl
+
+/**
+ * 8-way 16-bit multiplexor:
+ * out = a if sel == 000
+ *       b if sel == 001
+ *       etc.
+ *       h if sel == 111
+ */
+
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16],
+       e[16], f[16], g[16], h[16],
+       sel[3];
+    OUT out[16];
+
+    PARTS:
+    Not(in=sel[0], out=unsel0);
+    Not(in=sel[1], out=unsel1);
+    Not(in=sel[2], out=unsel2);
+
+    And3Way(a=unsel0, b=unsel1, c=unsel2, out=useA);
+    And3Way(a=sel[0], b=unsel1, c=unsel2, out=useB);
+    And3Way(a=unsel0, b=sel[1], c=unsel2, out=useC);
+    And3Way(a=sel[0], b=sel[1], c=unsel2, out=useD);
+    And3Way(a=unsel0, b=unsel1, c=sel[2], out=useE);
+    And3Way(a=sel[0], b=unsel1, c=sel[2], out=useF);
+    And3Way(a=unsel0, b=sel[1], c=sel[2], out=useG);
+    And3Way(a=sel[0], b=sel[1], c=sel[2], out=useH);
+
+    And(a=a[0], b=useA, out=oA0);
+    And(a=b[0], b=useB, out=oB0);
+    And(a=c[0], b=useC, out=oC0);
+    And(a=d[0], b=useD, out=oD0);
+    And(a=e[0], b=useE, out=oE0);
+    And(a=f[0], b=useF, out=oF0);
+    And(a=g[0], b=useG, out=oG0);
+    And(a=h[0], b=useH, out=oH0);
+    Or8Way(in[0]=oA0, in[1]=oB0, in[2]=oC0, in[3]=oD0, in[4]=oE0, in[5]=oF0, in[6]=oG0, in[7]=oH0, out=out[0]);
+
+    And(a=a[1], b=useA, out=oA1);
+    And(a=b[1], b=useB, out=oB1);
+    And(a=c[1], b=useC, out=oC1);
+    And(a=d[1], b=useD, out=oD1);
+    And(a=e[1], b=useE, out=oE1);
+    And(a=f[1], b=useF, out=oF1);
+    And(a=g[1], b=useG, out=oG1);
+    And(a=h[1], b=useH, out=oH1);
+    Or8Way(in[0]=oA1, in[1]=oB1, in[2]=oC1, in[3]=oD1, in[4]=oE1, in[5]=oF1, in[6]=oG1, in[7]=oH1, out=out[1]);
+
+    And(a=a[2], b=useA, out=oA2);
+    And(a=b[2], b=useB, out=oB2);
+    And(a=c[2], b=useC, out=oC2);
+    And(a=d[2], b=useD, out=oD2);
+    And(a=e[2], b=useE, out=oE2);
+    And(a=f[2], b=useF, out=oF2);
+    And(a=g[2], b=useG, out=oG2);
+    And(a=h[2], b=useH, out=oH2);
+    Or8Way(in[0]=oA2, in[1]=oB2, in[2]=oC2, in[3]=oD2, in[4]=oE2, in[5]=oF2, in[6]=oG2, in[7]=oH2, out=out[2]);
+
+    And(a=a[3], b=useA, out=oA3);
+    And(a=b[3], b=useB, out=oB3);
+    And(a=c[3], b=useC, out=oC3);
+    And(a=d[3], b=useD, out=oD3);
+    And(a=e[3], b=useE, out=oE3);
+    And(a=f[3], b=useF, out=oF3);
+    And(a=g[3], b=useG, out=oG3);
+    And(a=h[3], b=useH, out=oH3);
+    Or8Way(in[0]=oA3, in[1]=oB3, in[2]=oC3, in[3]=oD3, in[4]=oE3, in[5]=oF3, in[6]=oG3, in[7]=oH3, out=out[3]);
+
+    And(a=a[4], b=useA, out=oA4);
+    And(a=b[4], b=useB, out=oB4);
+    And(a=c[4], b=useC, out=oC4);
+    And(a=d[4], b=useD, out=oD4);
+    And(a=e[4], b=useE, out=oE4);
+    And(a=f[4], b=useF, out=oF4);
+    And(a=g[4], b=useG, out=oG4);
+    And(a=h[4], b=useH, out=oH4);
+    Or8Way(in[0]=oA4, in[1]=oB4, in[2]=oC4, in[3]=oD4, in[4]=oE4, in[5]=oF4, in[6]=oG4, in[7]=oH4, out=out[4]);
+
+    And(a=a[5], b=useA, out=oA5);
+    And(a=b[5], b=useB, out=oB5);
+    And(a=c[5], b=useC, out=oC5);
+    And(a=d[5], b=useD, out=oD5);
+    And(a=e[5], b=useE, out=oE5);
+    And(a=f[5], b=useF, out=oF5);
+    And(a=g[5], b=useG, out=oG5);
+    And(a=h[5], b=useH, out=oH5);
+    Or8Way(in[0]=oA5, in[1]=oB5, in[2]=oC5, in[3]=oD5, in[4]=oE5, in[5]=oF5, in[6]=oG5, in[7]=oH5, out=out[5]);
+
+    And(a=a[6], b=useA, out=oA6);
+    And(a=b[6], b=useB, out=oB6);
+    And(a=c[6], b=useC, out=oC6);
+    And(a=d[6], b=useD, out=oD6);
+    And(a=e[6], b=useE, out=oE6);
+    And(a=f[6], b=useF, out=oF6);
+    And(a=g[6], b=useG, out=oG6);
+    And(a=h[6], b=useH, out=oH6);
+    Or8Way(in[0]=oA6, in[1]=oB6, in[2]=oC6, in[3]=oD6, in[4]=oE6, in[5]=oF6, in[6]=oG6, in[7]=oH6, out=out[6]);
+
+    And(a=a[7], b=useA, out=oA7);
+    And(a=b[7], b=useB, out=oB7);
+    And(a=c[7], b=useC, out=oC7);
+    And(a=d[7], b=useD, out=oD7);
+    And(a=e[7], b=useE, out=oE7);
+    And(a=f[7], b=useF, out=oF7);
+    And(a=g[7], b=useG, out=oG7);
+    And(a=h[7], b=useH, out=oH7);
+    Or8Way(in[0]=oA7, in[1]=oB7, in[2]=oC7, in[3]=oD7, in[4]=oE7, in[5]=oF7, in[6]=oG7, in[7]=oH7, out=out[7]);
+
+    And(a=a[8], b=useA, out=oA8);
+    And(a=b[8], b=useB, out=oB8);
+    And(a=c[8], b=useC, out=oC8);
+    And(a=d[8], b=useD, out=oD8);
+    And(a=e[8], b=useE, out=oE8);
+    And(a=f[8], b=useF, out=oF8);
+    And(a=g[8], b=useG, out=oG8);
+    And(a=h[8], b=useH, out=oH8);
+    Or8Way(in[0]=oA8, in[1]=oB8, in[2]=oC8, in[3]=oD8, in[4]=oE8, in[5]=oF8, in[6]=oG8, in[7]=oH8, out=out[8]);
+
+    And(a=a[9], b=useA, out=oA9);
+    And(a=b[9], b=useB, out=oB9);
+    And(a=c[9], b=useC, out=oC9);
+    And(a=d[9], b=useD, out=oD9);
+    And(a=e[9], b=useE, out=oE9);
+    And(a=f[9], b=useF, out=oF9);
+    And(a=g[9], b=useG, out=oG9);
+    And(a=h[9], b=useH, out=oH9);
+    Or8Way(in[0]=oA9, in[1]=oB9, in[2]=oC9, in[3]=oD9, in[4]=oE9, in[5]=oF9, in[6]=oG9, in[7]=oH9, out=out[9]);
+
+    And(a=a[10], b=useA, out=oA10);
+    And(a=b[10], b=useB, out=oB10);
+    And(a=c[10], b=useC, out=oC10);
+    And(a=d[10], b=useD, out=oD10);
+    And(a=e[10], b=useE, out=oE10);
+    And(a=f[10], b=useF, out=oF10);
+    And(a=g[10], b=useG, out=oG10);
+    And(a=h[10], b=useH, out=oH10);
+    Or8Way(in[0]=oA10, in[1]=oB10, in[2]=oC10, in[3]=oD10, in[4]=oE10, in[5]=oF10, in[6]=oG10, in[7]=oH10, out=out[10]);
+
+    And(a=a[11], b=useA, out=oA11);
+    And(a=b[11], b=useB, out=oB11);
+    And(a=c[11], b=useC, out=oC11);
+    And(a=d[11], b=useD, out=oD11);
+    And(a=e[11], b=useE, out=oE11);
+    And(a=f[11], b=useF, out=oF11);
+    And(a=g[11], b=useG, out=oG11);
+    And(a=h[11], b=useH, out=oH11);
+    Or8Way(in[0]=oA11, in[1]=oB11, in[2]=oC11, in[3]=oD11, in[4]=oE11, in[5]=oF11, in[6]=oG11, in[7]=oH11, out=out[11]);
+
+    And(a=a[12], b=useA, out=oA12);
+    And(a=b[12], b=useB, out=oB12);
+    And(a=c[12], b=useC, out=oC12);
+    And(a=d[12], b=useD, out=oD12);
+    And(a=e[12], b=useE, out=oE12);
+    And(a=f[12], b=useF, out=oF12);
+    And(a=g[12], b=useG, out=oG12);
+    And(a=h[12], b=useH, out=oH12);
+    Or8Way(in[0]=oA12, in[1]=oB12, in[2]=oC12, in[3]=oD12, in[4]=oE12, in[5]=oF12, in[6]=oG12, in[7]=oH12, out=out[12]);
+
+    And(a=a[13], b=useA, out=oA13);
+    And(a=b[13], b=useB, out=oB13);
+    And(a=c[13], b=useC, out=oC13);
+    And(a=d[13], b=useD, out=oD13);
+    And(a=e[13], b=useE, out=oE13);
+    And(a=f[13], b=useF, out=oF13);
+    And(a=g[13], b=useG, out=oG13);
+    And(a=h[13], b=useH, out=oH13);
+    Or8Way(in[0]=oA13, in[1]=oB13, in[2]=oC13, in[3]=oD13, in[4]=oE13, in[5]=oF13, in[6]=oG13, in[7]=oH13, out=out[13]);
+
+    And(a=a[14], b=useA, out=oA14);
+    And(a=b[14], b=useB, out=oB14);
+    And(a=c[14], b=useC, out=oC14);
+    And(a=d[14], b=useD, out=oD14);
+    And(a=e[14], b=useE, out=oE14);
+    And(a=f[14], b=useF, out=oF14);
+    And(a=g[14], b=useG, out=oG14);
+    And(a=h[14], b=useH, out=oH14);
+    Or8Way(in[0]=oA14, in[1]=oB14, in[2]=oC14, in[3]=oD14, in[4]=oE14, in[5]=oF14, in[6]=oG14, in[7]=oH14, out=out[14]);
+
+    And(a=a[15], b=useA, out=oA15);
+    And(a=b[15], b=useB, out=oB15);
+    And(a=c[15], b=useC, out=oC15);
+    And(a=d[15], b=useD, out=oD15);
+    And(a=e[15], b=useE, out=oE15);
+    And(a=f[15], b=useF, out=oF15);
+    And(a=g[15], b=useG, out=oG15);
+    And(a=h[15], b=useH, out=oH15);
+    Or8Way(in[0]=oA15, in[1]=oB15, in[2]=oC15, in[3]=oD15, in[4]=oE15, in[5]=oF15, in[6]=oG15, in[7]=oH15, out=out[15]);
+}
