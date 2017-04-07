@@ -42,5 +42,47 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+
+    // Step 1: zero the x input
+    Mux16(a=x, b=false, sel=zx, out=step1);
+    // more efficient via Nand16(x,zx) if it existed
+
+    // Step 2: negate the x input
+    Not16(in=step1, out=con2p1);
+    Mux16(a=step1, b=con2p1, sel=nx, out=step2);
+    // more efficient via Xor16(step1,nx) if it existed
+
+    // Step 3: zero the y input
+    Mux16(a=y, b=false, sel=zy, out=step3);
+
+    // Step 4: negate the y input
+    Not16(in=step3, out=con4p1);
+    Mux16(a=step3, b=con4p1, sel=ny, out=step4);
+
+    // Step 5: AND or ADD zeroed x/y based on f
+    And16(a=step2, b=step4, out=con5p1);
+    Add16(a=step2, b=step4, out=con5p2);
+    Mux16(a=con5p1, b=con5p2, sel=f, out=step5);
+
+    // Steps 6 and 7
+    Not16(in=step5, out=con6p1);
+    Mux16(
+      a=step5,
+      b=con6p1,
+      sel=no,
+      out[0]=o0, out[1]=o1, out[2]=o2, out[3]=o3, out[4]=o4, out[5]=o5,
+      out[6]=o6, out[7]=o7, out[8]=o8, out[9]=o9, out[10]=o10, out[11]=o11,
+      out[12]=o12, out[13]=o13, out[14]=o14, out[15]=o15,
+
+      // Step 6: negate output base on "no"
+      out=out,
+
+      // Step 7: set "ng" if output < 0
+      out[15]=ng);
+
+    // Step 8: set zr if output == 0
+    Or8Way(in[0]=o0, in[1]=o1, in[2]=o2, in[3]=o3, in[4]=o4, in[5]=o5, in[6]=o6, in[7]=o7, out=con8p1);
+    Or8Way(in[0]=o8, in[1]=o9, in[2]=o10, in[3]=o11, in[4]=o12, in[5]=o13, in[6]=o14, in[7]=o15, out=con8p2);
+    Or(a=con8p1, b=con8p2, out=con8p3);
+    Not(in=con8p3, out=zr);
 }
