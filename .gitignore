@@ -3,5 +3,6 @@
 *.out
 /tools
 /projects/00/
+/projects/demo/
 /projects/**/*.cmp
 /projects/**/*.tst
